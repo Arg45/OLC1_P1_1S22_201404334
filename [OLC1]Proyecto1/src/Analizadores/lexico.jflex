@@ -20,7 +20,7 @@ import java.util.LinkedList;
 
 %}
 
-%cupsym sym
+%cupsym Simbolos
 %class A_Lexico
 %cup
 %public
@@ -32,26 +32,36 @@ import java.util.LinkedList;
 
 %full
 
-
-IGUAL = "="
-COMILLAS = "\""
+LLAVE_A = "{"
+LLAVE_C = "}"
+COMILLASIM = "\'"
+COMILLADOB = "\""
+MENOR = "<"
+MAYOR = ">"
+PUNTO = "."
 COMA = ","
 PUNTOYCOMA = ";"
+DOSPUNTOS = ":"
+ADMI_C = "!"
+INTE_C = "?"
 MAS = "+"
 MENOS = "-"
 POR = "*"
 DIV = "/"
-DOSPUNTOS = ":"
-LLAVE_A = "{"
-LLAVE_C = "}"
+CONTRADIV = "\"
+OR = "|"
+PORCIENTO  "%"
+
+COSO_N = "~"
+
+dfasfasdfsda
+IGUAL = "="
 CORH_A = "["
 CORH_C = "]"
 PAR_A = "("
 PAR_C = ")"
-ADMI_C = "!"
-MENOR = "<"
-MAYOR = ">"
-PUNTO = "."
+
+
 
 CLAVES = "Claves"
 REGISTROS = "Registros"
@@ -71,7 +81,7 @@ GRAFICAR = "Graficar"
 ENTERO = [+|-]*[0-9]+  
 ID  = [A-Za-zñÑ][_0-9A-Za-zñÑ]+
 COMENTARIO_LINEA = "//" [^\r\n]* [^\r\n]
-COMENTARIO_VARIASL = ("/*" [^/] "*/")
+COMENTARIO_VARIASL = ("<!" [^/] "!>")
 //CADENA = (" \" " [^\"] " \" ")
 CADENA = [\"][^\"\n]*[\"\n]
 

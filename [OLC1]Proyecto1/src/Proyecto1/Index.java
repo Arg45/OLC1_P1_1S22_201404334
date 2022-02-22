@@ -1,7 +1,7 @@
 package Proyecto1;
 
-
 import Analizadores.*;
+import aaaaaa.*;
 import java.awt.Desktop;
 import java.awt.Graphics;
 import java.awt.HeadlessException;
@@ -13,6 +13,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.Arrays;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -26,9 +27,7 @@ public class Index extends javax.swing.JFrame {
     
     JFileChooser archivo;
     
-    String rutaAnalizadores = "src/Analizadores";
-    //String rutaManualTecnico = "src/Manuales/tecnico.docx";
-    //String rutaManualUsuario = "src/Manuales/usuario.docx";  
+    String rutaAnalizadores = "src/Analizadores";  
     String rutaManualTecnico = "src/Manuales/tecnico.pdf";
     String rutaManualUsuario = "src/Manuales/usuario.pdf";  
     String rutaWeb = "C:\\Users\\argue\\OneDrive\\Documents\\NetBeansProjects\\Compi1_1S2019\\Reportes\\Web.html";
@@ -103,17 +102,6 @@ public class Index extends javax.swing.JFrame {
         jp_multimedia.setLayout(jp_multimediaLayout);
         jp_multimediaLayout.setHorizontalGroup(
             jp_multimediaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jp_multimediaLayout.createSequentialGroup()
-                .addGroup(jp_multimediaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jp_multimediaLayout.createSequentialGroup()
-                        .addContainerGap(44, Short.MAX_VALUE)
-                        .addComponent(jSlider1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jp_multimediaLayout.createSequentialGroup()
-                        .addGap(42, 42, 42)
-                        .addComponent(btt_anterior)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btt_siguiente)))
-                .addGap(36, 36, 36))
             .addGroup(jp_multimediaLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(lbl_foto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -122,6 +110,15 @@ public class Index extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(cmb_opciones, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
+            .addGroup(jp_multimediaLayout.createSequentialGroup()
+                .addGap(42, 42, 42)
+                .addGroup(jp_multimediaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jSlider1, javax.swing.GroupLayout.DEFAULT_SIZE, 205, Short.MAX_VALUE)
+                    .addGroup(jp_multimediaLayout.createSequentialGroup()
+                        .addComponent(btt_anterior)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btt_siguiente)))
+                .addGap(36, 36, 36))
         );
         jp_multimediaLayout.setVerticalGroup(
             jp_multimediaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -155,7 +152,7 @@ public class Index extends javax.swing.JFrame {
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 156, Short.MAX_VALUE)))
                 .addGap(18, 18, 18)
                 .addComponent(jp_multimedia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(23, Short.MAX_VALUE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
         jP_fondoLayout.setVerticalGroup(
             jP_fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -372,44 +369,26 @@ public class Index extends javax.swing.JFrame {
     private javax.swing.JTextArea txt_entrada;
     private javax.swing.JTextArea txt_salida;
     // End of variables declaration//GEN-END:variables
-    /*
-    //--------------------este es el metodo real que hay que modificar!
-    private void guardar(){
-        try {
-            File archivo_nuevo = archivo.getSelectedFile();
-            FileNameExtensionFilter filtroidm = new FileNameExtensionFilter("*.exp","exp");
-            if(filtroidm.getExtensions().toString()!=".exp"){
-                System.out.println("si es el tipo de archivo");
-            }else{
-                FileWriter guardar = new FileWriter(archivo_nuevo + ".exp");
-                guardar.write(txt_entrada.getText());
-                guardar.close();
-                JOptionPane.showMessageDialog(null,"El archivo se guardo con éxito", "Información",JOptionPane.INFORMATION_MESSAGE);
-            }
-        } catch(IOException ex)  {
-            JOptionPane.showMessageDialog(null, "No se pudo guardar el archivo", "ADVERTENCIA",JOptionPane.WARNING_MESSAGE);
-        }
-    }
-    */
+       
     private void limpiar(){
         txt_entrada.setText(" ");
         txt_salida.setText(" ");
     }
-    
-    private void guardar(){//metodo para borrar pero sirve ahora :V
+    FileNameExtensionFilter filtroidm = new FileNameExtensionFilter("exp Files","exp");
+    private void guardar(){
         try {
             File archivo_nuevo = archivo.getSelectedFile();
-            FileNameExtensionFilter filtroidm = new FileNameExtensionFilter("*.exp","exp");
+            
             if(filtroidm.getExtensions().toString()=="exp"){
-                System.out.println("si es el tipo de archivo");
-            }
-            System.out.println("se supone que verifico tipos");
+                System.out.println("si es el tipo de archivo");   
+                }
             if(archivo_nuevo !=null){
-                FileWriter guardar = new FileWriter(archivo_nuevo + ".txt");
+                FileWriter guardar = new FileWriter(archivo_nuevo);
                 guardar.write(txt_entrada.getText());
                 guardar.close();
                 JOptionPane.showMessageDialog(null,"El archivo se guardo con éxito", "Información",JOptionPane.INFORMATION_MESSAGE);
             }
+            
         } catch(IOException ex)  {
             JOptionPane.showMessageDialog(null, "No se pudo guardar el archivo", "ADVERTENCIA",JOptionPane.WARNING_MESSAGE);
         }
@@ -434,8 +413,11 @@ public class Index extends javax.swing.JFrame {
         String aux;
         try {
             archivo = new JFileChooser(); 
-            archivo.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+            archivo.addChoosableFileFilter(filtroidm);
+            archivo.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);            
+            archivo.setFileFilter(filtroidm);            
             archivo.showOpenDialog(this);
+            
             File abrir_archivo = archivo.getSelectedFile();  
             if (abrir_archivo!=null) {
                 FileReader archivos = new FileReader(abrir_archivo);
@@ -467,7 +449,7 @@ public class Index extends javax.swing.JFrame {
             System.out.println("No se pudo abrir el manual. "+ex);
         }
     }
-    
+    /*
     public void generarErroresLexicosHTML() throws IOException{
         String primeroError = "<html><title>Errores</title><body bgcolor=#9ACD32><center><h1>Tabla de Errores Lexicos</h1><table border=1><tr><td width = 50 bgcolor=white><center><h3>No.</h3></td><td width = 75 bgcolor=white><center><h3>Fila</h3></td><td width = 100 bgcolor=white><center><h3>Columna</h3></center></td><td width = 300 bgcolor=white><center><h3>Caracter</h3></center></td><td width = 300 bgcolor=white><center><h3>Descripcion</h3></center></td></tr>\n";
         String finArchivo = "</table></body></html>";
@@ -504,7 +486,7 @@ public class Index extends javax.swing.JFrame {
         //crearArchivo(textoArchivo, mydocpath); 
         crearArchivo(textoArchivo, rutaErrorSIN); 
     }
-    
+    */
     public void crearArchivo(String Cadena, String Ruta) throws IOException{
         File archivo1= new File(Ruta);
         BufferedWriter bw;
@@ -556,7 +538,7 @@ public class Index extends javax.swing.JFrame {
         }
     }
     
-    
+    /*
     private void ejecutarCompilador(){
         A_Lexico lexi = new A_Lexico(new BufferedReader(new StringReader(txt_entrada.getText())));
         A_Sintactico sintax = new A_Sintactico(lexi);
@@ -571,7 +553,7 @@ public class Index extends javax.swing.JFrame {
         }
         System.out.println("\nFinaliza el analisis...");        
     }
-    
+    */
 
     public class Imagen extends javax.swing.JPanel {
         int ancho = 1500;
