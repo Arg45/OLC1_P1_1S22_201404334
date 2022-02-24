@@ -1,29 +1,12 @@
+
 /*--------------- 1ra Area: Codigo de Usuario -----------------------*/
 //-------> importaciones, paquetes
 package Analizadores;
 import java_cup.runtime.Symbol;
-import olc1.clase2.Evaluar;
-import java.util.LinkedList;
 
 //------> Codigo para el parser,variables, metodos
 parser code{:
-
-        //Podemos crear variables, listas, etc;
-        // deben de ser staticas si se quieren usar fuera
-        
-        public static LinkedList<Evaluar> lista_evaluar;
-        
-
-        public void syntax_error(Symbol s)
-        {
-            System.err.println("Error en la Linea " + (s.right+1) +" Columna "+(s.left+1)+ ". Identificador "+s.value + " no reconocido. Se ha recuperado del error." );
-        }
-
-        public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception
-        {
-            System.err.println("Error en la Linea " + (s.right+1)+ " Columna "+(s.left+1)+". Identificador " +s.value + " no reconocido.");
-        }
-        
+        public String resultado = "";
 :}
 
 //------> Codigo para las acciones gramaticales
@@ -34,48 +17,86 @@ action code
 
 //------> declaracion de terminales 
 
-terminal String mas, por, div, menos, pyc, cora, corc, para, parc, eval, digito, unario;
+terminal LLAVE_A, LLAVE_C, COMILLASIM, COMILLADOB, MENOR, MAYOR, PUNTO, COMA, PUNTOYCOMA, DOSPUNTOS, ADMI_C, INTE_C,
+         MAS, MENOS, POR, DIV, CONTRADIV, OR, PORCIENTO, COSO_N, IGUAL, CORH_A, CORH_C, PAR_A, PAR_C, 
+
+         CONJUNTO, 
+         DIGITO, LETRA, ID, CADENA, 
+         
+         COMENTARIO_LINEA, COMENTARIO_VARIASL;
 
 //------> declaracion de no terminales
-non terminal LinkedList<Evaluar> INICIO,  INSTRUCCIONES;
-non terminal Evaluar INSTRUCCION;
-non terminal Integer E;
-
-//------> precedencia
-precedence left mas, menos;
-precedence left por, div;
-precedence left unario;
-
+non terminal String INICIO, S, A, B, C, D, E, F, G, H,
+                    definirconjuntos,definirexpresionregular,dobleporciento,comentarios,notacionconjuntos,
+                    listanumeros,listaletras,er,expresionregularaevaluar;
 
 start with INICIO;
 
 /*--------------- 3ra Area: Reglas Semanticas -----------------------*/
 
-INICIO::= INSTRUCCIONES:a    {: lista_evaluar =a ;:} 
-       ;
+INICIO::=S;
 
-INSTRUCCIONES::= INSTRUCCIONES:a INSTRUCCION:b    {: RESULT = a; RESULT.add(b); :}
-       | INSTRUCCION:a                            {: RESULT = new LinkedList<>(); RESULT.add(a);  :}
-       ; 
+S::=S A
+    | A
+    ;
+A::= LLAVE_A B LLAVE_C;
 
-INSTRUCCION::= eval cora E:a corc pyc     {: RESULT = new Evaluar(a, aleft, aright);
-                                             /*System.out.println("El valor de la expresión es: "+a); */
-                                            :}
-       ; 
+B::=definirconjuntos
+    |definirexpresionregular
+    |dobleporciento
+    |comentarios
+    ;
 
+definirconjuntos::= definirconjuntos C
+        |C       
+        ;
+C::=CONJUNTO DOSPUNTOS ID MENOS MAYOR notacionconjuntos PUNTOYCOMA ;
+notacionconjuntos::= LETRA COSO_N LETRA
+    | DIGITO COSO_N DIGITO
+    | listanumeros
+    | listaletras
+    ;
 
-E::= E:a mas E:b    {: RESULT=a+b; :}
-   | E:a menos E:b  {: RESULT=a-b; :}
-   | E:a por E:b    {: RESULT=a*b; :}
-   | E:a div E:b    {: RESULT=a/b; :}
-   | para E:a parc  {: RESULT=a; :}
-   | menos E:a      {: RESULT=a*(-1); :} %prec unario
-   | digito:a       {: RESULT=new Integer(a); :}
-   ;
+listanumeros::= listanumeros G
+    | G
+    ;
+G ::= DIGITO COMA
+    | DIGITO
+    ;
+listaletras::= listaletras H
+    | H
+    ;
+H::=LETRA COMA
+    | LETRA
+    ;
 
+definirexpresionregular::=definirexpresionregular D
+    |D
+    ;
+D ::= ID MENOS MAYOR er PUNTOYCOMA;
+er::= er E
+    | E
+    ;
+E::=LLAVE_A
+    |LLAVE_C
+    |COMILLASIM
+    |COMILLADOB
+    |PUNTO
+    |INTE_C
+    |MAS
+    |POR
+    |OR
+    |DIGITO
+    |LETRA
+    |ID
+    ; 
+dobleporciento::=expresionregularaevaluar
+;
+expresionregularaevaluar::=expresionregularaevaluar F
+    |F;
+F::= ID DOSPUNTOS CADENA PUNTOYCOMA
+    ;
 
-
-
-
-
-
+comentarios::=COMENTARIO_LINEA
+    |COMENTARIO_VARIASL
+    ;

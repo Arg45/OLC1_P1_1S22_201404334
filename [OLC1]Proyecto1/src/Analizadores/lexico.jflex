@@ -32,6 +32,8 @@ import java.util.LinkedList;
 
 %full
 
+
+
 LLAVE_A = "{"
 LLAVE_C = "}"
 COMILLASIM = "\'"
@@ -48,13 +50,13 @@ MAS = "+"
 MENOS = "-"
 POR = "*"
 DIV = "/"
-CONTRADIV = "\"
+CONTRADIV = "\\"
 OR = "|"
-PORCIENTO  "%"
+//PORCIENTO  "\%"
 
 COSO_N = "~"
 
-dfasfasdfsda
+
 IGUAL = "="
 CORH_A = "["
 CORH_C = "]"
@@ -63,79 +65,76 @@ PAR_C = ")"
 
 
 
-CLAVES = "Claves"
-REGISTROS = "Registros"
-ARCHIVO = "Archivo"
-NUMERICO = "Numerico"
-TIPO_CADENA = "Cadena"
-LEER_ARCHIVO = "LeerArchivo"
-SUMAR = "Sumar"
-CONTAR = "Contar"
-PROMEDIO = "Promedio"
-CONTAR_SI = "ContarSi"
-OBTENER_SI = "ObtenerSi"
-IMPRIMIR = "Imprimir"
-GRAFICAR = "Graficar"
+CONJUNTO = "conj"
 
 
-ENTERO = [+|-]*[0-9]+  
-ID  = [A-Za-zñÑ][_0-9A-Za-zñÑ]+
-COMENTARIO_LINEA = "//" [^\r\n]* [^\r\n]
-COMENTARIO_VARIASL = ("<!" [^/] "!>")
+//DIGITO = [+|-]?[0-9]+  
+DIGITO = [0-9]+  
+LETRA = [A-Za-zñÑ]+
+ID  = {LETRA}({LETRA}|{DIGITO}|"_")*
+
 //CADENA = (" \" " [^\"] " \" ")
-CADENA = [\"][^\"\n]*[\"\n]
+CADENA = [\"][^\"\n]*[\"]
 
-SPACE   = [\ \r\t\f\t]
+FINLINEA = \r|\n|\r\n
+InputCharacter = [^\r\n]
+
+//comentariosimple    = "//" {InputCharacter}* {LineTerminator}?
+COMENTARIO_LINEA = "//" [^\r\n]* {FINLINEA}?
+COMENTARIO_VARIASL = ("<!" [^/] "!>")
+
+SPACE   = [ \t\r\n\f] 
+//SPACE   = [\ \r\t\f\t]
 ENTER   = [ \n]
 
 
 %%
-<YYINITIAL> {IGUAL}         { return new Symbol(sym.IGUAL, yyline, yycolumn,yytext());}
-<YYINITIAL> {COMILLAS}      { return new Symbol(sym.COMILLAS, yyline, yycolumn,yytext());}
-<YYINITIAL> {COMA}          { return new Symbol(sym.COMA, yyline, yycolumn,yytext());}
-<YYINITIAL> {PUNTOYCOMA}    { return new Symbol(sym.PUNTOYCOMA, yyline, yycolumn,yytext());}
-<YYINITIAL> {MAS}           { return new Symbol(sym.MAS, yyline, yycolumn,yytext());}
-<YYINITIAL> {MENOS}         { return new Symbol(sym.MENOS, yyline, yycolumn,yytext());}
-<YYINITIAL> {POR}           { return new Symbol(sym.POR, yyline, yycolumn,yytext());}
-<YYINITIAL> {DIV}           { return new Symbol(sym.DIV, yyline, yycolumn,yytext());}
-<YYINITIAL> {DOSPUNTOS}     { return new Symbol(sym.DOSPUNTOS, yyline, yycolumn,yytext());}
-<YYINITIAL> {LLAVE_A}       { return new Symbol(sym.LLAVE_A, yyline, yycolumn,yytext());}
-<YYINITIAL> {LLAVE_C}       { return new Symbol(sym.LLAVE_C, yyline, yycolumn,yytext());}
-<YYINITIAL> {CORH_A}        { return new Symbol(sym.CORH_A, yyline, yycolumn,yytext());}
-<YYINITIAL> {CORH_C}        { return new Symbol(sym.CORH_C, yyline, yycolumn,yytext());}
-<YYINITIAL> {PAR_A}         { return new Symbol(sym.PAR_A, yyline, yycolumn,yytext());}
-<YYINITIAL> {PAR_C}         { return new Symbol(sym.PAR_C, yyline, yycolumn,yytext());}
-<YYINITIAL> {ADMI_C}        { return new Symbol(sym.ADMI_C, yyline, yycolumn,yytext());}
-<YYINITIAL> {MENOR}         { return new Symbol(sym.MENOR, yyline, yycolumn,yytext());}
-<YYINITIAL> {MAYOR}         { return new Symbol(sym.MAYOR, yyline, yycolumn,yytext());}
-<YYINITIAL> {PUNTO}         { return new Symbol(sym.PUNTO, yyline, yycolumn,yytext());}
+<YYINITIAL> {LLAVE_A}            { return new Symbol(Simbolos.LLAVE_A, yyline, yycolumn,yytext());}
+<YYINITIAL> {LLAVE_C}            { return new Symbol(Simbolos.LLAVE_C, yyline, yycolumn,yytext());}
+<YYINITIAL> {COMILLASIM}         { return new Symbol(Simbolos.COMILLASIM, yyline, yycolumn,yytext());}
+<YYINITIAL> {COMILLADOB}         { return new Symbol(Simbolos.COMILLADOB, yyline, yycolumn,yytext());}
+<YYINITIAL> {MENOR}              { return new Symbol(Simbolos.MENOR, yyline, yycolumn,yytext());}
+<YYINITIAL> {MAYOR}              { return new Symbol(Simbolos.MAYOR, yyline, yycolumn,yytext());}
+<YYINITIAL> {PUNTO}              { return new Symbol(Simbolos.PUNTO, yyline, yycolumn,yytext());}
+<YYINITIAL> {COMA}               { return new Symbol(Simbolos.COMA, yyline, yycolumn,yytext());}
+<YYINITIAL> {PUNTOYCOMA}         { return new Symbol(Simbolos.PUNTOYCOMA, yyline, yycolumn,yytext());}
+<YYINITIAL> {DOSPUNTOS}          { return new Symbol(Simbolos.DOSPUNTOS, yyline, yycolumn,yytext());}
+<YYINITIAL> {ADMI_C}             { return new Symbol(Simbolos.ADMI_C, yyline, yycolumn,yytext());}
+<YYINITIAL> {INTE_C}             { return new Symbol(Simbolos.INTE_C, yyline, yycolumn,yytext());}
+<YYINITIAL> {MAS}                { return new Symbol(Simbolos.MAS, yyline, yycolumn,yytext());}
+<YYINITIAL> {MENOS}              { return new Symbol(Simbolos.MAS, yyline, yycolumn,yytext());}
+<YYINITIAL> {POR}                { return new Symbol(Simbolos.POR, yyline, yycolumn,yytext());}
+<YYINITIAL> {DIV}                { return new Symbol(Simbolos.DIV, yyline, yycolumn,yytext());}
+<YYINITIAL> {CONTRADIV}          { return new Symbol(Simbolos.CONTRADIV, yyline, yycolumn,yytext());}
+<YYINITIAL> {OR}                 { return new Symbol(Simbolos.OR, yyline, yycolumn,yytext());}
+//<YYINITIAL> {PORCIENTO}          { return new Symbol(Simbolos.PORCIENTO, yyline, yycolumn,yytext());}
+<YYINITIAL> {COSO_N}             { return new Symbol(Simbolos.COSO_N, yyline, yycolumn,yytext());}
+<YYINITIAL> {IGUAL}              { return new Symbol(Simbolos.IGUAL, yyline, yycolumn,yytext());}
+<YYINITIAL> {CORH_A}             { return new Symbol(Simbolos.CORH_A, yyline, yycolumn,yytext());}
+<YYINITIAL> {CORH_C}             { return new Symbol(Simbolos.CORH_C, yyline, yycolumn,yytext());}
+<YYINITIAL> {PAR_A}              { return new Symbol(Simbolos.PAR_A, yyline, yycolumn,yytext());}
+<YYINITIAL> {PAR_C}              { return new Symbol(Simbolos.PAR_C, yyline, yycolumn,yytext());}
 
 
-<YYINITIAL> {CLAVES}                       { return new Symbol(sym.CLAVES, yyline, yycolumn,yytext());}
-<YYINITIAL> {REGISTROS}                    { return new Symbol(sym.REGISTROS, yyline, yycolumn,yytext());}
-<YYINITIAL> {ARCHIVO}                      { return new Symbol(sym.ARCHIVO, yyline, yycolumn,yytext());}
-<YYINITIAL> {NUMERICO}                     { return new Symbol(sym.NUMERICO, yyline, yycolumn,yytext());}
-<YYINITIAL> {TIPO_CADENA}                  { return new Symbol(sym.TIPO_CADENA, yyline, yycolumn,yytext());}
-<YYINITIAL> {LEER_ARCHIVO}                 { return new Symbol(sym.LEER_ARCHIVO, yyline, yycolumn,yytext());}
-<YYINITIAL> {SUMAR}                        { return new Symbol(sym.SUMAR, yyline, yycolumn,yytext());}
-<YYINITIAL> {CONTAR}                       { return new Symbol(sym.CONTAR, yyline, yycolumn,yytext());}
-<YYINITIAL> {PROMEDIO}                     { return new Symbol(sym.PROMEDIO, yyline, yycolumn,yytext());}
-<YYINITIAL> {CONTAR_SI}                    { return new Symbol(sym.CONTAR_SI, yyline, yycolumn,yytext());}
-<YYINITIAL> {OBTENER_SI}                   { return new Symbol(sym.OBTENER_SI, yyline, yycolumn,yytext());}
-<YYINITIAL> {IMPRIMIR}                     { return new Symbol(sym.IMPRIMIR, yyline, yycolumn,yytext());}
-<YYINITIAL> {GRAFICAR}                     { return new Symbol(sym.GRAFICAR, yyline, yycolumn,yytext());}
+<YYINITIAL> {CONJUNTO}              { return new Symbol(Simbolos.CONJUNTO, yyline, yycolumn,yytext());}
 
-<YYINITIAL> {ENTERO}                  { return new Symbol(sym.ENTERO, yyline, yycolumn,yytext());}
-<YYINITIAL> {ID}                      { return new Symbol(sym.ID, yyline, yycolumn,yytext());}
-<YYINITIAL> {COMENTARIO_LINEA}        { return new Symbol(sym.COMENTARIO_LINEA, yyline, yycolumn,yytext());}
-<YYINITIAL> {COMENTARIO_VARIASL}      { return new Symbol(sym.COMENTARIO_VARIASL, yyline, yycolumn,yytext());}
-<YYINITIAL> {CADENA}                  { return new Symbol(sym.CADENA, yyline, yycolumn,yytext());}
+
+
+
+<YYINITIAL> {DIGITO}                  { return new Symbol(Simbolos.DIGITO, yyline, yycolumn,yytext());}
+<YYINITIAL> {ID}                      { return new Symbol(Simbolos.ID, yyline, yycolumn,yytext());}
+
+<YYINITIAL> {COMENTARIO_LINEA}        { return new Symbol(Simbolos.COMENTARIO_LINEA, yyline, yycolumn,yytext());}
+<YYINITIAL> {COMENTARIO_VARIASL}      { return new Symbol(Simbolos.COMENTARIO_VARIASL, yyline, yycolumn,yytext());}
+
+<YYINITIAL> {CADENA}                  { return new Symbol(Simbolos.CADENA, yyline, yycolumn,yytext());}
 
 <YYINITIAL> {SPACE}     { /*Espacios en blanco, ignorados*/ }
 <YYINITIAL> {ENTER}     { /*Saltos de linea, ignorados*/}
 
-
- . {System.out.println("Error lexico: "+yytext()+" linea: "+yyline+" columna: "+yycolumn);
+ .                       { System.out.println("Error Lexico: "+yytext()+" Linea "+yyline+" Columna "+yycolumn);}
+ /*. {System.out.println("Error lexico: "+yytext()+" linea: "+yyline+" columna: "+yycolumn);
     Tabla_error eLexico = new Tabla_error(yytext(),yyline,yycolumn,"Error Lexico","El simbolo no pertenece al lenguaje.");
     TablaEl.add(eLexico);
    }
+*/

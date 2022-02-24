@@ -1,7 +1,6 @@
 package Proyecto1;
 
 import Analizadores.*;
-import aaaaaa.*;
 import java.awt.Desktop;
 import java.awt.Graphics;
 import java.awt.HeadlessException;
@@ -26,6 +25,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 public class Index extends javax.swing.JFrame {
     
     JFileChooser archivo;
+    FileNameExtensionFilter filtroidm = new FileNameExtensionFilter("exp Files","exp");
     
     String rutaAnalizadores = "src/Analizadores";  
     String rutaManualTecnico = "src/Manuales/tecnico.pdf";
@@ -70,9 +70,10 @@ public class Index extends javax.swing.JFrame {
         jmi_abrir = new javax.swing.JMenuItem();
         jmi_guardar = new javax.swing.JMenuItem();
         jmi_guardarcomo = new javax.swing.JMenuItem();
-        jm_ejecutar = new javax.swing.JMenu();
+        jm_compilar = new javax.swing.JMenu();
+        jmi_analizadores = new javax.swing.JMenuItem();
+        jmi_compilar = new javax.swing.JMenuItem();
         jmi_automata = new javax.swing.JMenuItem();
-        jmi_analizar = new javax.swing.JMenuItem();
         jm_reporte = new javax.swing.JMenu();
         jmi_errores = new javax.swing.JMenuItem();
         jm_ayuda = new javax.swing.JMenu();
@@ -80,7 +81,10 @@ public class Index extends javax.swing.JFrame {
         jmi_tecnico = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("ExpAnalyzer");
+        setFont(new java.awt.Font("Century Gothic", 0, 10)); // NOI18N
 
+        txt_salida.setEditable(false);
         txt_salida.setBackground(new java.awt.Color(0, 0, 0));
         txt_salida.setColumns(20);
         txt_salida.setForeground(new java.awt.Color(51, 255, 0));
@@ -92,10 +96,13 @@ public class Index extends javax.swing.JFrame {
         txt_entrada.setRows(5);
         jScrollPane2.setViewportView(txt_entrada);
 
+        cmb_opciones.setFont(new java.awt.Font("Century Gothic", 0, 11)); // NOI18N
         cmb_opciones.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
+        btt_anterior.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         btt_anterior.setText("Anterior");
 
+        btt_siguiente.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         btt_siguiente.setText("Siguiente");
 
         javax.swing.GroupLayout jp_multimediaLayout = new javax.swing.GroupLayout(jp_multimedia);
@@ -136,6 +143,7 @@ public class Index extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        jTree1.setFont(new java.awt.Font("Century Gothic", 0, 11)); // NOI18N
         jScrollPane3.setViewportView(jTree1);
 
         javax.swing.GroupLayout jP_fondoLayout = new javax.swing.GroupLayout(jP_fondo);
@@ -169,8 +177,12 @@ public class Index extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jm_archivo.setText("Archivo");
+        jMenuBar1.setFont(new java.awt.Font("Century Gothic", 0, 10)); // NOI18N
 
+        jm_archivo.setText("Archivo");
+        jm_archivo.setFont(new java.awt.Font("Century Gothic", 0, 11)); // NOI18N
+
+        jmi_nuevo.setFont(new java.awt.Font("Century Gothic", 0, 11)); // NOI18N
         jmi_nuevo.setText("Nuevo");
         jmi_nuevo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -179,6 +191,7 @@ public class Index extends javax.swing.JFrame {
         });
         jm_archivo.add(jmi_nuevo);
 
+        jmi_abrir.setFont(new java.awt.Font("Century Gothic", 0, 11)); // NOI18N
         jmi_abrir.setText("Abrir");
         jmi_abrir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -187,6 +200,7 @@ public class Index extends javax.swing.JFrame {
         });
         jm_archivo.add(jmi_abrir);
 
+        jmi_guardar.setFont(new java.awt.Font("Century Gothic", 0, 11)); // NOI18N
         jmi_guardar.setText("Guardar");
         jmi_guardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -195,6 +209,7 @@ public class Index extends javax.swing.JFrame {
         });
         jm_archivo.add(jmi_guardar);
 
+        jmi_guardarcomo.setFont(new java.awt.Font("Century Gothic", 0, 11)); // NOI18N
         jmi_guardarcomo.setText("Guardar como");
         jmi_guardarcomo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -205,28 +220,42 @@ public class Index extends javax.swing.JFrame {
 
         jMenuBar1.add(jm_archivo);
 
-        jm_ejecutar.setText("Ejecutar");
+        jm_compilar.setText("Compilar");
+        jm_compilar.setFont(new java.awt.Font("Century Gothic", 0, 11)); // NOI18N
 
+        jmi_analizadores.setFont(new java.awt.Font("Century Gothic", 0, 11)); // NOI18N
+        jmi_analizadores.setText("Generar Analizadores");
+        jmi_analizadores.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmi_analizadoresActionPerformed(evt);
+            }
+        });
+        jm_compilar.add(jmi_analizadores);
+
+        jmi_compilar.setFont(new java.awt.Font("Century Gothic", 0, 11)); // NOI18N
+        jmi_compilar.setText("Compilar");
+        jmi_compilar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmi_compilarActionPerformed(evt);
+            }
+        });
+        jm_compilar.add(jmi_compilar);
+
+        jmi_automata.setFont(new java.awt.Font("Century Gothic", 0, 11)); // NOI18N
         jmi_automata.setText("Generar automatas");
         jmi_automata.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jmi_automataActionPerformed(evt);
             }
         });
-        jm_ejecutar.add(jmi_automata);
+        jm_compilar.add(jmi_automata);
 
-        jmi_analizar.setText("Analizar");
-        jmi_analizar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jmi_analizarActionPerformed(evt);
-            }
-        });
-        jm_ejecutar.add(jmi_analizar);
-
-        jMenuBar1.add(jm_ejecutar);
+        jMenuBar1.add(jm_compilar);
 
         jm_reporte.setText("Reportes");
+        jm_reporte.setFont(new java.awt.Font("Century Gothic", 0, 11)); // NOI18N
 
+        jmi_errores.setFont(new java.awt.Font("Century Gothic", 0, 11)); // NOI18N
         jmi_errores.setText("Errores");
         jmi_errores.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -238,7 +267,9 @@ public class Index extends javax.swing.JFrame {
         jMenuBar1.add(jm_reporte);
 
         jm_ayuda.setText("Ayuda");
+        jm_ayuda.setFont(new java.awt.Font("Century Gothic", 0, 11)); // NOI18N
 
+        jmi_deusuario.setFont(new java.awt.Font("Century Gothic", 0, 11)); // NOI18N
         jmi_deusuario.setText("Manual de usuario");
         jmi_deusuario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -247,6 +278,7 @@ public class Index extends javax.swing.JFrame {
         });
         jm_ayuda.add(jmi_deusuario);
 
+        jmi_tecnico.setFont(new java.awt.Font("Century Gothic", 0, 11)); // NOI18N
         jmi_tecnico.setText("Manual tecnico");
         jmi_tecnico.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -292,9 +324,10 @@ public class Index extends javax.swing.JFrame {
     private void jmi_automataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_automataActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jmi_automataActionPerformed
-    private void jmi_analizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_analizarActionPerformed
-        compilar();
-    }//GEN-LAST:event_jmi_analizarActionPerformed
+    private void jmi_analizadoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_analizadoresActionPerformed
+        lexico();
+        sintactico();
+    }//GEN-LAST:event_jmi_analizadoresActionPerformed
     private void jmi_erroresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_erroresActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jmi_erroresActionPerformed
@@ -304,6 +337,10 @@ public class Index extends javax.swing.JFrame {
     private void jmi_tecnicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_tecnicoActionPerformed
         manuales(rutaManualTecnico);
     }//GEN-LAST:event_jmi_tecnicoActionPerformed
+
+    private void jmi_compilarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_compilarActionPerformed
+        ejecutarCompilador();
+    }//GEN-LAST:event_jmi_compilarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -346,18 +383,19 @@ public class Index extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cmb_opciones;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jP_fondo;
-    private javax.swing.JScrollPane jScrollPane1;
+    public javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JSlider jSlider1;
     private javax.swing.JTree jTree1;
     private javax.swing.JMenu jm_archivo;
     private javax.swing.JMenu jm_ayuda;
-    private javax.swing.JMenu jm_ejecutar;
+    private javax.swing.JMenu jm_compilar;
     private javax.swing.JMenu jm_reporte;
     private javax.swing.JMenuItem jmi_abrir;
-    private javax.swing.JMenuItem jmi_analizar;
+    private javax.swing.JMenuItem jmi_analizadores;
     private javax.swing.JMenuItem jmi_automata;
+    private javax.swing.JMenuItem jmi_compilar;
     private javax.swing.JMenuItem jmi_deusuario;
     private javax.swing.JMenuItem jmi_errores;
     private javax.swing.JMenuItem jmi_guardar;
@@ -367,14 +405,14 @@ public class Index extends javax.swing.JFrame {
     private javax.swing.JPanel jp_multimedia;
     private javax.swing.JLabel lbl_foto;
     private javax.swing.JTextArea txt_entrada;
-    private javax.swing.JTextArea txt_salida;
+    public javax.swing.JTextArea txt_salida;
     // End of variables declaration//GEN-END:variables
        
     private void limpiar(){
         txt_entrada.setText(" ");
         txt_salida.setText(" ");
     }
-    FileNameExtensionFilter filtroidm = new FileNameExtensionFilter("exp Files","exp");
+    
     private void guardar(){
         try {
             File archivo_nuevo = archivo.getSelectedFile();
@@ -490,17 +528,12 @@ public class Index extends javax.swing.JFrame {
     public void crearArchivo(String Cadena, String Ruta) throws IOException{
         File archivo1= new File(Ruta);
         BufferedWriter bw;
-        bw= new BufferedWriter(new FileWriter(archivo1));
+        bw = new BufferedWriter(new FileWriter(archivo1));
         bw.write(Cadena);
         bw.close(); 
     }
     
-    private void compilar(){
-        lexico();
-        sintactico();
-        
-        //ejecutarCompilador();
-    }
+    
     public void lexico(){
         File file=new File(rutaAnalizadores + "/lexico.jflex");
         jflex.Main.generate(file);
@@ -538,12 +571,13 @@ public class Index extends javax.swing.JFrame {
         }
     }
     
-    /*
-    private void ejecutarCompilador(){
+    
+    private void ejecutarCompilador(){       
         A_Lexico lexi = new A_Lexico(new BufferedReader(new StringReader(txt_entrada.getText())));
         A_Sintactico sintax = new A_Sintactico(lexi);
         try {
-            sintax.parse();      
+            sintax.parse();   
+            this.txt_salida.setText(sintax.resultado);
             //generarErroresLexicosHTML();
             //generarErroresSintacticosHTML();
         } catch (Exception ex) {
@@ -553,7 +587,7 @@ public class Index extends javax.swing.JFrame {
         }
         System.out.println("\nFinaliza el analisis...");        
     }
-    */
+    
 
     public class Imagen extends javax.swing.JPanel {
         int ancho = 1500;
