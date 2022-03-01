@@ -4,8 +4,11 @@
 package Analizadores;
 import java_cup.runtime.Symbol;
 
+import Proyecto1.Index;
+
 //------> Codigo para el parser,variables, metodos
 parser code{:
+        Index i = new Index();
         public String resultado = "";
 :}
 
@@ -18,7 +21,7 @@ action code
 //------> declaracion de terminales 
 
 terminal LLAVE_A, LLAVE_C, COMILLASIM, COMILLADOB, MENOR, MAYOR, PUNTO, COMA, PUNTOYCOMA, DOSPUNTOS, ADMI_C, INTE_C,
-         MAS, MENOS, POR, DIV, CONTRADIV, OR, PORCIENTO, COSO_N, IGUAL, CORH_A, CORH_C, PAR_A, PAR_C, 
+         MAS, MENOS, POR, DIV, CONTRADIV, OR, DPORCIENTO, COSO_N, IGUAL, CORH_A, CORH_C, PAR_A, PAR_C, 
 
          CONJUNTO, 
          DIGITO, LETRA, ID, CADENA, 
@@ -26,7 +29,7 @@ terminal LLAVE_A, LLAVE_C, COMILLASIM, COMILLADOB, MENOR, MAYOR, PUNTO, COMA, PU
          COMENTARIO_LINEA, COMENTARIO_VARIASL;
 
 //------> declaracion de no terminales
-non terminal String INICIO, S, A, B, C, D, E, F, G, H,
+non terminal String INICIO, S, A, B, C, D, E, F, G, H, I,
                     definirconjuntos,definirexpresionregular,dobleporciento,comentarios,notacionconjuntos,
                     listanumeros,listaletras,er,expresionregularaevaluar;
 
@@ -34,69 +37,138 @@ start with INICIO;
 
 /*--------------- 3ra Area: Reglas Semanticas -----------------------*/
 
-INICIO::=S;
+INICIO::=S:a {: parser.resultado=a; System.out.println(a); i.txt_salida.setText(a); :};
 
-S::=S A
-    | A
-    ;
-A::= LLAVE_A B LLAVE_C;
-
-B::=definirconjuntos
-    |definirexpresionregular
-    |dobleporciento
-    |comentarios
+S::=S:a A:b {: RESULT = a.toString()+b.toString(); :}
+    | A:a {: RESULT = a.toString(); :}
     ;
 
-definirconjuntos::= definirconjuntos C
-        |C       
-        ;
-C::=CONJUNTO DOSPUNTOS ID MENOS MAYOR notacionconjuntos PUNTOYCOMA ;
-notacionconjuntos::= LETRA COSO_N LETRA
-    | DIGITO COSO_N DIGITO
-    | listanumeros
-    | listaletras
-    ;
-
-listanumeros::= listanumeros G
-    | G
-    ;
-G ::= DIGITO COMA
-    | DIGITO
-    ;
-listaletras::= listaletras H
-    | H
-    ;
-H::=LETRA COMA
-    | LETRA
-    ;
-
-definirexpresionregular::=definirexpresionregular D
-    |D
-    ;
-D ::= ID MENOS MAYOR er PUNTOYCOMA;
-er::= er E
-    | E
-    ;
-E::=LLAVE_A
-    |LLAVE_C
-    |COMILLASIM
-    |COMILLADOB
-    |PUNTO
-    |INTE_C
-    |MAS
-    |POR
-    |OR
-    |DIGITO
-    |LETRA
-    |ID
-    ; 
-dobleporciento::=expresionregularaevaluar
+A::= LLAVE_A B:b LLAVE_C {: RESULT = " { "+ b.toString() +" } "; :}
 ;
-expresionregularaevaluar::=expresionregularaevaluar F
-    |F;
-F::= ID DOSPUNTOS CADENA PUNTOYCOMA
+B::=definirconjuntos:a {: RESULT = a.toString(); :}
+    |definirexpresionregular:a {: RESULT = a.toString(); :}
+    |dobleporciento:a {: RESULT = a.toString(); :}
+    |comentarios:a {: RESULT = a.toString(); :}
     ;
 
-comentarios::=COMENTARIO_LINEA
-    |COMENTARIO_VARIASL
+definirconjuntos::= definirconjuntos:a C:b {: RESULT = a.toString()+b.toString(); :}
+                    |C:a {: RESULT = a.toString(); :}
+                    ;
+
+C::=CONJUNTO:a DOSPUNTOS:b ID:c MENOS:d MAYOR:e notacionconjuntos:f PUNTOYCOMA:g {: RESULT = a.toString()+b.toString()+c.toString()+d.toString()+e.toString()+f.toString()+g.toString(); :}
+;
+
+notacionconjuntos::= LETRA:a COSO_N:b LETRA:c {: RESULT = a.toString()+b.toString()+c.toString(); :}
+    | DIGITO:a COSO_N:b DIGITO:c {: RESULT = a.toString()+b.toString()+c.toString(); :}
+    | listanumeros:a {: RESULT = a.toString(); :}
+    | listaletras:a {: RESULT = a.toString(); :}
     ;
+
+listanumeros::= listanumeros:a G:b {: RESULT = a.toString()+b.toString(); :}
+    | G:a {: RESULT = a.toString(); :}
+    ;
+
+G ::= DIGITO:a COMA:b {: RESULT = a.toString()+b.toString(); :}
+    | DIGITO:a {: RESULT = a.toString(); :}
+    ;
+
+listaletras::= listaletras:a H:b {: RESULT = a.toString()+b.toString(); :}
+    | H:a {: RESULT = a.toString(); :}
+    ;
+
+H::= LETRA:a COMA:b {: RESULT = a.toString()+b.toString(); :}
+    | LETRA:a {: RESULT = a.toString(); :}
+    ;
+
+definirexpresionregular::=definirexpresionregular:a D:b {: RESULT = a.toString()+b.toString(); :}
+    |D:a {: RESULT = a.toString(); :}
+    ;
+
+D::= ID:a MENOS:b MAYOR:c er:d PUNTOYCOMA:e {: RESULT = a.toString()+b.toString()+c.toString()+d.toString()+e.toString(); :}
+;
+
+er::= er:a E:b {: RESULT = a.toString()+b.toString(); :}
+    | E:a {: RESULT = a.toString(); :}
+    ;
+
+E::= G:a H:b {: RESULT = a.toString()+b.toString(); :}
+    | H:a {: RESULT = a.toString(); :}
+    ;
+
+G::= PUNTO:a {: RESULT = a.toString(); :}
+    | MAS:a {: RESULT = a.toString(); :}
+    | POR:a {: RESULT = a.toString(); :}
+    | OR:a {: RESULT = a.toString(); :}
+    | INTE_C:a {: RESULT = a.toString(); :}
+    ;
+
+H::= LLAVE_A:a I:b LLAVE_C:c {: RESULT = a.toString()+b.toString()+c.toString(); :}
+    | CADENA:a {: RESULT = a.toString(); :}
+    ;
+
+I::= DIGITO:a {: RESULT = a.toString(); :}
+    |LETRA:a {: RESULT = a.toString(); :}
+    ; 
+
+dobleporciento::= DPORCIENTO:a DPORCIENTO:b expresionregularaevaluar:c {: RESULT = a.toString()+b.toString()+c.toString(); :}
+;
+
+expresionregularaevaluar::=expresionregularaevaluar:a F:b {: RESULT = a.toString()+b.toString(); :}
+                            |F:a {: RESULT = a.toString(); :}
+                            ;
+
+F::= ID:a DOSPUNTOS:b CADENA:c PUNTOYCOMA:d {: RESULT = a.toString()+b.toString()+c.toString()+d.toString(); :}
+;
+
+comentarios::=COMENTARIO_LINEA:a {: RESULT = a.toString(); :}
+            |COMENTARIO_VARIASL:a {: RESULT = a.toString(); :}
+            ;
+
+
+/*
+        Gramatica
+
+S -> S A
+    | A
+A -> {B}
+B -> definir_conjuntos
+    | definir_ER
+    | doble_porciento
+    | comentario
+definir_conjuntos -> definir_conjuntos C
+    | C
+C -> conjunto : ID -> notacion_conjuntos;
+notacion_conjuntos -> letra n letra // n es el simbolo que de ñ
+    | digito n digito
+    | lista_numeros
+    | lista_letras
+lista_numeros -> lista_numeros G
+    | G
+G -> digito,
+    | digito
+lista_letras -> lista_letras H
+    | H
+H -> letra,
+    | letra
+definir_ER -> definir_ER D
+    | D
+D -> ID -> ER;
+ER -> ER E
+    | E
+E -> G H
+    | H 
+G -> .
+    |+
+    |*
+    ||
+H -> { I }
+    | CADENA
+I -> digito
+    |letra
+doble_porciento -> %%%% ER_a_evaluar
+ER_a_evaluar -> ER_a_evaluar F
+    | F
+F -> ID : CADENA ;
+comentario -> unilinea
+    |multilinea
+*/

@@ -40,6 +40,7 @@ public class Index extends javax.swing.JFrame {
         initComponents();
         this.setLocation(150, 50);
         imprimirImagen();
+        System.out.println("-----------------------------------------");
     }
 
     /**
@@ -337,7 +338,6 @@ public class Index extends javax.swing.JFrame {
     private void jmi_tecnicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_tecnicoActionPerformed
         manuales(rutaManualTecnico);
     }//GEN-LAST:event_jmi_tecnicoActionPerformed
-
     private void jmi_compilarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_compilarActionPerformed
         ejecutarCompilador();
     }//GEN-LAST:event_jmi_compilarActionPerformed

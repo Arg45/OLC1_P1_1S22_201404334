@@ -26,11 +26,11 @@ public class Simbolos {
   public static final int CORH_A = 23;
   public static final int PAR_C = 26;
   public static final int PAR_A = 25;
+  public static final int DPORCIENTO = 20;
   public static final int ID = 30;
   public static final int POR = 16;
   public static final int INTE_C = 13;
   public static final int COMA = 9;
-  public static final int PORCIENTO = 20;
   public static final int MAYOR = 7;
   public static final int EOF = 0;
   public static final int DIGITO = 28;
@@ -63,7 +63,7 @@ public class Simbolos {
   "DIV",
   "CONTRADIV",
   "OR",
-  "PORCIENTO",
+  "DPORCIENTO",
   "COSO_N",
   "IGUAL",
   "CORH_A",
