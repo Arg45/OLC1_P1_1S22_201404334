@@ -1,0 +1,173 @@
+
+/*--------------- 1ra Area: Codigo de Usuario -----------------------*/
+//-------> importaciones, paquetes
+package Analizadores;
+import java_cup.runtime.Symbol;
+
+import Proyecto1.Index;
+
+//------> Codigo para el parser,variables, metodos
+parser code{:
+        Index i = new Index();
+        public String resultado = "";
+:}
+
+//------> Codigo para las acciones gramaticales
+action code
+{:  :}
+
+/*--------------- 2da Area: Declaraciones -----------------------*/
+
+//------> declaracion de terminales 
+
+terminal LLAVE_A, LLAVE_C, COMILLASIM, COMILLADOB, MENOR, MAYOR, PUNTO, COMA, PUNTOYCOMA, DOSPUNTOS, ADMI_C, INTE_C,
+         MAS, MENOS, POR, DIV, CONTRADIV, OR, DPORCIENTO, COSO_N, IGUAL, CORH_A, CORH_C, PAR_A, PAR_C, 
+
+         CONJUNTO, 
+         DIGITO, LETRA, ID, CADENA, 
+         
+         COMENTARIO_LINEA, COMENTARIO_VARIASL;
+
+//------> declaracion de no terminales
+non terminal String INICIO, S, A, B, C, D, E, F, G, H, I, J, 
+                    definirconjuntos,definirexpresionregular,dobleporciento,comentarios,notacionconjuntos,
+                    listanumeros,listaletras,er,expresionregularaevaluar;
+
+start with INICIO;
+
+/*--------------- 3ra Area: Reglas Semanticas -----------------------*/
+
+INICIO::=S:a {: parser.resultado=a; System.out.println(a); i.txt_salida.setText(a); :};
+
+S::=S:a A:b {: RESULT = a.toString()+b.toString(); :}
+    | A:a {: RESULT = a.toString(); :}
+    ;
+
+A::= LLAVE_A B:b LLAVE_C {: RESULT = " { "+ b.toString() +" } "; :}
+;
+B::=definirconjuntos:a {: RESULT = a.toString(); :}
+    |definirexpresionregular:a {: RESULT = a.toString(); :}
+    |dobleporciento:a {: RESULT = a.toString(); :}
+    |comentarios:a {: RESULT = a.toString(); :}
+    ;
+
+definirconjuntos::= definirconjuntos:a C:b {: RESULT = a.toString()+b.toString(); :}
+                    |C:a {: RESULT = a.toString(); :}
+                    ;
+
+C::=CONJUNTO:a DOSPUNTOS:b ID:c MENOS:d MAYOR:e notacionconjuntos:f PUNTOYCOMA:g {: RESULT = a.toString()+b.toString()+c.toString()+d.toString()+e.toString()+f.toString()+g.toString(); :}
+;
+
+notacionconjuntos::= listanumeros:a {: RESULT = a.toString(); :}
+    | listaletras:a {: RESULT = a.toString(); :}
+    ;
+
+listanumeros::= listanumeros:a G:b {: RESULT = a.toString()+b.toString(); :}
+    | G:a {: RESULT = a.toString(); :}
+    ;
+
+G ::= DIGITO:a COMA:b {: RESULT = a.toString()+b.toString(); :}
+    | DIGITO:a COSO_N:b {: RESULT = a.toString()+b.toString(); :}
+    | DIGITO:a {: RESULT = a.toString(); :}
+    ;
+
+listaletras::= listaletras:a J:b {: RESULT = a.toString()+b.toString(); :}
+    | J:a {: RESULT = a.toString(); :}
+    | COSO_N:a {: RESULT = a.toString(); :}
+    ;
+
+J::= ID:a {: RESULT = a.toString(); :}
+    ;
+
+definirexpresionregular::=definirexpresionregular:a D:b {: RESULT = a.toString()+b.toString(); :}
+    |D:a {: RESULT = a.toString(); :}
+    ;
+
+D::= ID:a MENOS:b MAYOR:c er:d PUNTOYCOMA:e {: RESULT = a.toString()+b.toString()+c.toString()+d.toString()+e.toString(); :}
+;
+
+er::= er:a E:b {: RESULT = a.toString()+b.toString(); :}
+    | E:a {: RESULT = a.toString(); :}
+    ;
+
+E::= G:a H:b {: RESULT = a.toString()+b.toString(); :}
+    | H:a {: RESULT = a.toString(); :}
+    ;
+
+G::= PUNTO:a {: RESULT = a.toString(); :}
+    | MAS:a {: RESULT = a.toString(); :}
+    | POR:a {: RESULT = a.toString(); :}
+    | OR:a {: RESULT = a.toString(); :}
+    | INTE_C:a {: RESULT = a.toString(); :}
+    ;
+
+H::= LLAVE_A:a I:b LLAVE_C:c {: RESULT = a.toString()+b.toString()+c.toString(); :}
+    | CADENA:a {: RESULT = a.toString(); :}
+    ;
+
+I::= DIGITO:a {: RESULT = a.toString(); :}
+    |LETRA:a {: RESULT = a.toString(); :}
+    ; 
+
+dobleporciento::= DPORCIENTO:a DPORCIENTO:b expresionregularaevaluar:c {: RESULT = a.toString()+b.toString()+c.toString(); :}
+;
+
+expresionregularaevaluar::=expresionregularaevaluar:a F:b {: RESULT = a.toString()+b.toString(); :}
+                            |F:a {: RESULT = a.toString(); :}
+                            ;
+
+F::= ID:a DOSPUNTOS:b CADENA:c PUNTOYCOMA:d {: RESULT = a.toString()+b.toString()+c.toString()+d.toString(); :}
+;
+
+comentarios::=COMENTARIO_LINEA:a {: RESULT = a.toString(); :}
+            |COMENTARIO_VARIASL:a {: RESULT = a.toString(); :}
+            ;
+
+
+/*
+        Gramatica
+
+S -> S A
+    | A
+A -> {B}
+B -> definir_conjuntos
+    | definir_ER
+    | doble_porciento
+    | comentario
+definir_conjuntos -> definir_conjuntos C
+    | C
+C -> conjunto : ID -> notacion_conjuntos;
+notacion_conjuntos -> lista_numeros
+    | lista_letras
+lista_numeros -> lista_numeros G
+    | G
+G -> digito,
+    | digito n // n es el simbolo que de ñ
+    | digito
+lista_letras -> lista_letras J
+    | J
+J -> letra,
+    | letra n // n es el simbolo que de ñ
+    | letra
+definir_ER -> definir_ER D
+    | D
+D -> ID -> ER;
+ER -> ER E
+    | E
+E -> G H
+    | H 
+G -> .
+    |+
+    |*
+    ||
+H -> { I }
+    | CADENA
+I -> digito
+    |letra
+doble_porciento -> %%%% ER_a_evaluar
+ER_a_evaluar -> ER_a_evaluar F
+    | F
+F -> ID : CADENA ;
+comentario -> unilinea
+    |multilinea
+*/

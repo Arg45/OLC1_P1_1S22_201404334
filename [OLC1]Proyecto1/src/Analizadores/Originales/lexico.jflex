@@ -39,6 +39,10 @@ import Proyecto1.Index;
 
 %full
 
+%state 
+
+
+
 LLAVE_A = "{"
 LLAVE_C = "}"
 COMILLASIM = "\'"
@@ -57,9 +61,10 @@ POR = "*"
 DIV = "/"
 CONTRADIV = "\\"
 OR = "|"
-//PORCIENTO = "%"
+PORCIENTO = "%"
 
 COSO_N = "~"
+
 
 IGUAL = "="
 CORH_A = "["
@@ -67,26 +72,27 @@ CORH_C = "]"
 PAR_A = "("
 PAR_C = ")"
 
-//DPORCIENTO = PORCIENTO PORCIENTO
 
 
 CONJUNTO = "CONJ"
 
-
+DPORCIENTO = PORCIENTO PORCIENTO
 //DIGITO = [+|-]?[0-9]+  
 DIGITO = [0-9]+(.[0-9]+)*
 LETRA = [A-Za-zñÑ]+
 NOTA_CONJ = COSO_N LETRA
 ID  = {LETRA}("~"|{LETRA}|{DIGITO}|"_")*
 
-CADENA = ([\"][^\"\n]*[\"\n]) | ([\'][^\"\n]*[\'\n])
+//CADENA = (" \" " [^\"] " \" ")
+CADENA = ([\"][^\"\n]*[\"]) | ([\'][^\"\n]*[\'])
 
-
-LineTerminator = \r|\n|\r\n
+LineTerminator  = \r|\n|\r\n
 InputCharacter = [^\r\n]
 
-COMENTARIO_LINEA = "//" {InputCharacter}* {LineTerminator}?
-COMENTARIO_VARIASL = "<!" [^/] "!>"
+//COMENTARIO_LINEA = "//" [^\r\n]
+COMENTARIO_LINEA = "//" "/"* {InputCharacter}* ENTER
+//({LineTerminator}|{ENTER})*
+COMENTARIO_VARIASL = ("<!" [^/] "!>")
 
 SPACE   = [ \t\r\n\f] | [\ \r\t\f\t]
 ENTER   = [ \n]
@@ -95,9 +101,9 @@ ENTER   = [ \n]
 %%
 <YYINITIAL> {LLAVE_A}            { System.out.println("Reconocio "+yytext()); i.txt_salida.setText(yytext()); return new Symbol(Simbolos.LLAVE_A, yyline, yycolumn,yytext());}
 <YYINITIAL> {LLAVE_C}            { System.out.println("Reconocio "+yytext()); return new Symbol(Simbolos.LLAVE_C, yyline, yycolumn,yytext());}
-//<YYINITIAL> {COMILLASIM}         { System.out.println("Reconocio "+yytext()); return new Symbol(Simbolos.COMILLASIM, yyline, yycolumn,yytext());}
-//<YYINITIAL> {COMILLADOB}         { System.out.println("Reconocio "+yytext()); return new Symbol(Simbolos.COMILLADOB, yyline, yycolumn,yytext());}
-//<YYINITIAL> {MENOR}              { System.out.println("Reconocio "+yytext()); return new Symbol(Simbolos.MENOR, yyline, yycolumn,yytext());}
+<YYINITIAL> {COMILLASIM}         { System.out.println("Reconocio "+yytext()); return new Symbol(Simbolos.COMILLASIM, yyline, yycolumn,yytext());}
+<YYINITIAL> {COMILLADOB}         { System.out.println("Reconocio "+yytext()); return new Symbol(Simbolos.COMILLADOB, yyline, yycolumn,yytext());}
+<YYINITIAL> {MENOR}              { System.out.println("Reconocio "+yytext()); return new Symbol(Simbolos.MENOR, yyline, yycolumn,yytext());}
 <YYINITIAL> {MAYOR}              { System.out.println("Reconocio "+yytext()); return new Symbol(Simbolos.MAYOR, yyline, yycolumn,yytext());}
 <YYINITIAL> {PUNTO}              { System.out.println("Reconocio "+yytext()); return new Symbol(Simbolos.PUNTO, yyline, yycolumn,yytext());}
 <YYINITIAL> {COMA}               { System.out.println("Reconocio "+yytext()); return new Symbol(Simbolos.COMA, yyline, yycolumn,yytext());}
@@ -111,13 +117,13 @@ ENTER   = [ \n]
 <YYINITIAL> {DIV}                { System.out.println("Reconocio "+yytext()); return new Symbol(Simbolos.DIV, yyline, yycolumn,yytext());}
 <YYINITIAL> {CONTRADIV}          { System.out.println("Reconocio "+yytext()); return new Symbol(Simbolos.CONTRADIV, yyline, yycolumn,yytext());}
 <YYINITIAL> {OR}                 { System.out.println("Reconocio "+yytext()); return new Symbol(Simbolos.OR, yyline, yycolumn,yytext());}
-<YYINITIAL> "%%"         { System.out.println("Reconocio DPORCIENTO: "+yytext()); return new Symbol(Simbolos.DPORCIENTO, yyline, yycolumn,yytext());}
+<YYINITIAL> {DPORCIENTO}         { System.out.println("Reconocio "+yytext()); return new Symbol(Simbolos.DPORCIENTO, yyline, yycolumn,yytext());}
 <YYINITIAL> {COSO_N}             { System.out.println("Reconocio "+yytext()); return new Symbol(Simbolos.COSO_N, yyline, yycolumn,yytext());}
-//<YYINITIAL> {IGUAL}              { System.out.println("Reconocio "+yytext()); return new Symbol(Simbolos.IGUAL, yyline, yycolumn,yytext());}
-//<YYINITIAL> {CORH_A}             { System.out.println("Reconocio "+yytext()); return new Symbol(Simbolos.CORH_A, yyline, yycolumn,yytext());}
-//<YYINITIAL> {CORH_C}             { System.out.println("Reconocio "+yytext()); return new Symbol(Simbolos.CORH_C, yyline, yycolumn,yytext());}
-//<YYINITIAL> {PAR_A}              { System.out.println("Reconocio "+yytext()); return new Symbol(Simbolos.PAR_A, yyline, yycolumn,yytext());}
-//<YYINITIAL> {PAR_C}              { System.out.println("Reconocio "+yytext()); return new Symbol(Simbolos.PAR_C, yyline, yycolumn,yytext());}
+<YYINITIAL> {IGUAL}              { System.out.println("Reconocio "+yytext()); return new Symbol(Simbolos.IGUAL, yyline, yycolumn,yytext());}
+<YYINITIAL> {CORH_A}             { System.out.println("Reconocio "+yytext()); return new Symbol(Simbolos.CORH_A, yyline, yycolumn,yytext());}
+<YYINITIAL> {CORH_C}             { System.out.println("Reconocio "+yytext()); return new Symbol(Simbolos.CORH_C, yyline, yycolumn,yytext());}
+<YYINITIAL> {PAR_A}              { System.out.println("Reconocio "+yytext()); return new Symbol(Simbolos.PAR_A, yyline, yycolumn,yytext());}
+<YYINITIAL> {PAR_C}              { System.out.println("Reconocio "+yytext()); return new Symbol(Simbolos.PAR_C, yyline, yycolumn,yytext());}
 
 
 <YYINITIAL> {CONJUNTO}              { System.out.println("Reconocio "+yytext()); return new Symbol(Simbolos.CONJUNTO, yyline, yycolumn,yytext());}
@@ -125,8 +131,8 @@ ENTER   = [ \n]
 <YYINITIAL> {DIGITO}                  { System.out.println("Reconocio "+yytext()); return new Symbol(Simbolos.DIGITO, yyline, yycolumn,yytext());}
 <YYINITIAL> {ID}                      { System.out.println("Reconocio "+yytext()); return new Symbol(Simbolos.ID, yyline, yycolumn,yytext());}
 
-<YYINITIAL> {COMENTARIO_LINEA}        { /*Comentario unilinea*/ System.out.println("Reconocio "+yytext()); }
-<YYINITIAL> {COMENTARIO_VARIASL}      { /*Comentario multilinea*/ System.out.println("Reconocio "+yytext()); }
+<YYINITIAL> {COMENTARIO_LINEA}        { System.out.println("Reconocio "+yytext()); return new Symbol(Simbolos.COMENTARIO_LINEA, yyline, yycolumn,yytext());}
+<YYINITIAL> {COMENTARIO_VARIASL}      { System.out.println("Reconocio "+yytext()); return new Symbol(Simbolos.COMENTARIO_VARIASL, yyline, yycolumn,yytext());}
 
 <YYINITIAL> {CADENA}                  { System.out.println("Reconocio "+yytext()); return new Symbol(Simbolos.CADENA, yyline, yycolumn,yytext());}
 
