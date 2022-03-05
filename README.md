@@ -19,7 +19,6 @@ Tutores Académicos
 
   
    ExpAnalyzer 
-
     Proyecto 1 
 
 
@@ -29,36 +28,69 @@ Tutores Académicos
 -------------------------
 
 S -> S A
+
     | A
+
 A -> {B}
+
 B -> B C
+
     | C
+
 C -> definirconjuntos
+
     | definirexpresionregular
+
     | dobleporciento
+
 definirconjuntos -> CONJUNTO DOSPUNTOS ID MENOS MAYOR notacionconjuntos PUNTOYCOMA
+
 notacionconjuntos -> E
+
                     | F
+
 E -> E COMA LETRA
+
     | E COSO_N LETRA
+
     | LETRA
+
 F -> F COMA DIGITO
+
     | F COSO_N DIGITO
+
     | DIGITO
+
 definirexpresionregular -> ID MENOS MAYOR er PUNTOYCOMA
+
 er -> er H
+
     | H
+
 H -> PUNTO
+
     | MAS
+
     | POR
+
     | OR
+
     | INTE_C
+
     | I
+
 I -> { J }
+
     | CADENA
+
 J -> LETRA
+
     | DIGITO
+
     | ID
+
 dobleporciento -> DPORCIENTO DPORCIENTO expresionregularaevaluar
+
                 | expresionregularaevaluar
+
 expresionregularaevaluar -> ID DOSPUNTOS CADENA PUNTOYCOMA
