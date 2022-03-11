@@ -16,7 +16,10 @@ import java.util.Arrays;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.JTree;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
 
 /**
  *
@@ -24,12 +27,15 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  */
 public class Index extends javax.swing.JFrame {
     
+    int cont_a = 0;
+    
     JFileChooser archivo;
     FileNameExtensionFilter filtroidm = new FileNameExtensionFilter("exp Files","exp");
     
     String rutaAnalizadores = "src/Analizadores";  
     String rutaManualTecnico = "src/Manuales/tecnico.pdf";
     String rutaManualUsuario = "src/Manuales/usuario.pdf";  
+    String rutaEnunciado = "src/Manuales/Enunciado.pdf";
     String rutaWeb = "C:\\Users\\argue\\OneDrive\\Documents\\NetBeansProjects\\Compi1_1S2019\\Reportes\\Web.html";
     String rutaToken = "C:\\Users\\argue\\OneDrive\\Documents\\NetBeansProjects\\Compi1_1S2019\\Reportes\\Token.html";
     String rutaErrorLEX = "D:\\Trabajos\\U\\USAC\\Cursos\\12vo Semestre\\Compi 1\\201404334_Compi12S19\\Compi1_2S2019\\Manuales\\ErroresLexicos.html";
@@ -41,6 +47,7 @@ public class Index extends javax.swing.JFrame {
         this.setLocation(150, 50);
         imprimirImagen();
         System.out.println("-----------------------------------------");
+        
     }
 
     /**
@@ -64,7 +71,7 @@ public class Index extends javax.swing.JFrame {
         btt_anterior = new javax.swing.JButton();
         btt_siguiente = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTree1 = new javax.swing.JTree();
+        jt_arboldeCarpetas = new javax.swing.JTree();
         jMenuBar1 = new javax.swing.JMenuBar();
         jm_archivo = new javax.swing.JMenu();
         jmi_nuevo = new javax.swing.JMenuItem();
@@ -80,6 +87,7 @@ public class Index extends javax.swing.JFrame {
         jm_ayuda = new javax.swing.JMenu();
         jmi_deusuario = new javax.swing.JMenuItem();
         jmi_tecnico = new javax.swing.JMenuItem();
+        jmi_enunciado = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("ExpAnalyzer");
@@ -144,8 +152,25 @@ public class Index extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jTree1.setFont(new java.awt.Font("Century Gothic", 0, 11)); // NOI18N
-        jScrollPane3.setViewportView(jTree1);
+        jt_arboldeCarpetas.setFont(new java.awt.Font("Century Gothic", 0, 11)); // NOI18N
+        javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("root");
+        javax.swing.tree.DefaultMutableTreeNode treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("colors");
+        javax.swing.tree.DefaultMutableTreeNode treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("rojo");
+        treeNode2.add(treeNode3);
+        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("azul");
+        treeNode2.add(treeNode3);
+        treeNode1.add(treeNode2);
+        treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("sport");
+        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("a");
+        treeNode2.add(treeNode3);
+        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("b");
+        treeNode2.add(treeNode3);
+        treeNode1.add(treeNode2);
+        treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("food");
+        treeNode1.add(treeNode2);
+        jt_arboldeCarpetas.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
+        jt_arboldeCarpetas.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jScrollPane3.setViewportView(jt_arboldeCarpetas);
 
         javax.swing.GroupLayout jP_fondoLayout = new javax.swing.GroupLayout(jP_fondo);
         jP_fondo.setLayout(jP_fondoLayout);
@@ -288,6 +313,15 @@ public class Index extends javax.swing.JFrame {
         });
         jm_ayuda.add(jmi_tecnico);
 
+        jmi_enunciado.setFont(new java.awt.Font("Century Gothic", 0, 11)); // NOI18N
+        jmi_enunciado.setText("Enunciado");
+        jmi_enunciado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmi_enunciadoActionPerformed(evt);
+            }
+        });
+        jm_ayuda.add(jmi_enunciado);
+
         jMenuBar1.add(jm_ayuda);
 
         setJMenuBar(jMenuBar1);
@@ -323,11 +357,14 @@ public class Index extends javax.swing.JFrame {
         guardarComo();
     }//GEN-LAST:event_jmi_guardarcomoActionPerformed
     private void jmi_automataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_automataActionPerformed
-        // TODO add your handling code here:
+        //graficar();
+        arbol();
     }//GEN-LAST:event_jmi_automataActionPerformed
     private void jmi_analizadoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_analizadoresActionPerformed
         lexico();
         sintactico();
+        txt_salida.setText("Los analizadores fueron generados correctamente. "+cont_a+" vez/veces");
+        cont_a++;
     }//GEN-LAST:event_jmi_analizadoresActionPerformed
     private void jmi_erroresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_erroresActionPerformed
         // TODO add your handling code here:
@@ -339,8 +376,12 @@ public class Index extends javax.swing.JFrame {
         manuales(rutaManualTecnico);
     }//GEN-LAST:event_jmi_tecnicoActionPerformed
     private void jmi_compilarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_compilarActionPerformed
+        txt_salida.setText(" ");
         ejecutarCompilador();
     }//GEN-LAST:event_jmi_compilarActionPerformed
+    private void jmi_enunciadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_enunciadoActionPerformed
+        manuales(rutaEnunciado);
+    }//GEN-LAST:event_jmi_enunciadoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -387,7 +428,6 @@ public class Index extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JSlider jSlider1;
-    private javax.swing.JTree jTree1;
     private javax.swing.JMenu jm_archivo;
     private javax.swing.JMenu jm_ayuda;
     private javax.swing.JMenu jm_compilar;
@@ -397,12 +437,14 @@ public class Index extends javax.swing.JFrame {
     private javax.swing.JMenuItem jmi_automata;
     private javax.swing.JMenuItem jmi_compilar;
     private javax.swing.JMenuItem jmi_deusuario;
+    private javax.swing.JMenuItem jmi_enunciado;
     private javax.swing.JMenuItem jmi_errores;
     private javax.swing.JMenuItem jmi_guardar;
     private javax.swing.JMenuItem jmi_guardarcomo;
     private javax.swing.JMenuItem jmi_nuevo;
     private javax.swing.JMenuItem jmi_tecnico;
     private javax.swing.JPanel jp_multimedia;
+    private javax.swing.JTree jt_arboldeCarpetas;
     private javax.swing.JLabel lbl_foto;
     private javax.swing.JTextArea txt_entrada;
     public javax.swing.JTextArea txt_salida;
@@ -413,6 +455,30 @@ public class Index extends javax.swing.JFrame {
         txt_salida.setText(" ");
     }
     
+    private void abrir(){
+        String letras = "";
+        String aux;
+        try {
+            archivo = new JFileChooser(); 
+            archivo.addChoosableFileFilter(filtroidm);
+            archivo.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);            
+            archivo.setFileFilter(filtroidm);            
+            archivo.showOpenDialog(this);
+            
+            File abrir_archivo = archivo.getSelectedFile();  
+            if (abrir_archivo!=null) {
+                FileReader archivos = new FileReader(abrir_archivo);
+                try (BufferedReader lee = new BufferedReader(archivos)) {
+                    while((aux=lee.readLine())!=null){
+                        letras += aux+ "\n";
+                    }
+                }
+            }
+        } catch (HeadlessException | IOException e) {
+            JOptionPane.showMessageDialog(null, "No se encuentra el archivo.");
+        }
+        txt_entrada.setText(letras);
+    }
     private void guardar(){
         try {
             File archivo_nuevo = archivo.getSelectedFile();
@@ -446,31 +512,7 @@ public class Index extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "No se pudo guardar el archivo", "ADVERTENCIA",JOptionPane.WARNING_MESSAGE);
         }
     }
-    private void abrir(){
-        String letras = "";
-        String aux;
-        try {
-            archivo = new JFileChooser(); 
-            archivo.addChoosableFileFilter(filtroidm);
-            archivo.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);            
-            archivo.setFileFilter(filtroidm);            
-            archivo.showOpenDialog(this);
-            
-            File abrir_archivo = archivo.getSelectedFile();  
-            if (abrir_archivo!=null) {
-                FileReader archivos = new FileReader(abrir_archivo);
-                try (BufferedReader lee = new BufferedReader(archivos)) {
-                    while((aux=lee.readLine())!=null){
-                        letras += aux+ "\n";
-                    }
-                }
-            }
-        } catch (HeadlessException | IOException e) {
-            JOptionPane.showMessageDialog(null, "No se encuentra el archivo.");
-        }
-        txt_entrada.setText(letras);
-    }
-    
+        
     private void manuales(String rutaManual){
         try {
             File manual = new File(rutaManual);
@@ -588,6 +630,36 @@ public class Index extends javax.swing.JFrame {
         System.out.println("\nFinaliza el analisis...");        
     }
     
+    public void graficar(){
+        String cod = "digraph G {\n" +
+                        "\n" +
+                        "a->b\n" +
+                        "}";
+         
+        Graficar g = new Graficar();
+        g.generarDOT(cod);
+    }
+    
+    public void arbol(){
+
+        // Construccion de los datos del arbol
+        DefaultMutableTreeNode padre = new DefaultMutableTreeNode("padre");
+        DefaultMutableTreeNode tio = new DefaultMutableTreeNode("tio");
+       
+
+        DefaultMutableTreeNode hijo = new DefaultMutableTreeNode("hijo");
+        DefaultMutableTreeNode hija = new DefaultMutableTreeNode("hija");
+        
+        
+    
+        DefaultTreeModel model = (DefaultTreeModel) jt_arboldeCarpetas.getModel();
+        
+        DefaultMutableTreeNode abuelo = (DefaultMutableTreeNode) jt_arboldeCarpetas.getLastSelectedPathComponent();
+        System.out.println(abuelo.getIndex(abuelo.getLastChild()));
+        abuelo.insert(padre,abuelo.getIndex(abuelo.getLastChild()));
+        //abuelo.insert(tio,1);
+        model.reload(abuelo);
+    }
 
     public class Imagen extends javax.swing.JPanel {
         int ancho = 1500;

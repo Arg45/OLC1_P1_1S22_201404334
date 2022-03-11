@@ -27,7 +27,7 @@ terminal LLAVE_A, LLAVE_C, MAYOR, PUNTO, COMA, PUNTOYCOMA, DOSPUNTOS, ADMI_C, IN
          DIGITO, LETRA, ID, CADENA;
 
 //------> declaracion de no terminales
-non terminal String INICIO, S, A, B, C, D, E, F, G, H, I, J, K,B1,
+non terminal String INICIO, S, A, B, C, D, E, F, G, H, I, J,
                     definirconjuntos,definirexpresionregular,dobleporciento,notacionconjuntos,
                     er,expresionregularaevaluar;
 
@@ -41,7 +41,7 @@ start with INICIO;
 
 /*--------------- 3ra Area: Reglas Semanticas -----------------------*/
 
-INICIO ::= S:a {: parser.resultado=a; System.out.println(a); i.txt_salida.setText(a); :};
+INICIO ::= S:a {: parser.resultado=a; /*System.out.println(a); i.txt_salida.setText(a);*/ :};
 
 S ::= S:a A:b {: RESULT = a.toString()+b.toString(); :}
     | A:a {: RESULT = a.toString(); :}
@@ -96,45 +96,3 @@ dobleporciento ::= DPORCIENTO:a DPORCIENTO:b expresionregularaevaluar:c {: RESUL
 ;
 expresionregularaevaluar ::= ID:a DOSPUNTOS:b CADENA:c PUNTOYCOMA:d {: RESULT = a.toString()+b.toString()+c.toString()+d.toString(); :}
 ;
-
-/*
--------------------------
-        Gramatica
--------------------------
-
-S -> S A
-    | A
-A -> {B}
-B -> B C
-    | C
-C -> definirconjuntos
-    | definirexpresionregular
-    | dobleporciento
-definirconjuntos -> CONJUNTO DOSPUNTOS ID MENOS MAYOR notacionconjuntos PUNTOYCOMA
-notacionconjuntos -> E
-                    | F
-E -> E COMA LETRA
-    | E COSO_N LETRA
-    | LETRA
-F -> F COMA DIGITO
-    | F COSO_N DIGITO
-    | DIGITO
-definirexpresionregular -> ID MENOS MAYOR er PUNTOYCOMA
-er -> er H
-    | H
-H -> PUNTO
-    | MAS
-    | POR
-    | OR
-    | INTE_C
-    | I
-I -> { J }
-    | CADENA
-J -> LETRA
-    | DIGITO
-    | ID
-dobleporciento -> DPORCIENTO DPORCIENTO expresionregularaevaluar
-                | expresionregularaevaluar
-expresionregularaevaluar -> ID DOSPUNTOS CADENA PUNTOYCOMA
-
-*/
