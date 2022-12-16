@@ -14,7 +14,7 @@ import javax.swing.tree.TreePath;
  
 public class TestMyJTree {
  
-JFrame privado jframeMain = nuevo JFrame ("Mi árbol de Java");
+//JFrame privado jframeMain = nuevo JFrame ("Mi árbol de Java");
 private JPanel jpanelMain = new JPanel();
  
 private JTree jtree;

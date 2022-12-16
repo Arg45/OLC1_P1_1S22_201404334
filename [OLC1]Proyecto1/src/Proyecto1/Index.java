@@ -16,6 +16,7 @@ import java.util.Arrays;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
 import javax.swing.JTree;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -40,7 +41,7 @@ public class Index extends javax.swing.JFrame {
     String rutaToken = "C:\\Users\\argue\\OneDrive\\Documents\\NetBeansProjects\\Compi1_1S2019\\Reportes\\Token.html";
     String rutaErrorLEX = "D:\\Trabajos\\U\\USAC\\Cursos\\12vo Semestre\\Compi 1\\201404334_Compi12S19\\Compi1_2S2019\\Manuales\\ErroresLexicos.html";
     String rutaErrorSIN = "D:\\Trabajos\\U\\USAC\\Cursos\\12vo Semestre\\Compi 1\\201404334_Compi12S19\\Compi1_2S2019\\Manuales\\ErroresSintacticos.html";
-    String rutaImagen = "/Proyecto1/fondo.jpg"; 
+    String rutaImagen = "src/Proyecto1/fondo.jpg"; 
     
     public Index() {
         initComponents();
@@ -48,6 +49,10 @@ public class Index extends javax.swing.JFrame {
         imprimirImagen();
         System.out.println("-----------------------------------------");
         
+    }
+
+    public JTextArea getTxt_entrada() {
+        return txt_entrada;
     }
 
     /**
@@ -357,8 +362,8 @@ public class Index extends javax.swing.JFrame {
         guardarComo();
     }//GEN-LAST:event_jmi_guardarcomoActionPerformed
     private void jmi_automataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_automataActionPerformed
-        //graficar();
-        arbol();
+        graficar();
+        //arbol();
     }//GEN-LAST:event_jmi_automataActionPerformed
     private void jmi_analizadoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_analizadoresActionPerformed
         lexico();
@@ -487,9 +492,9 @@ public class Index extends javax.swing.JFrame {
                 System.out.println("si es el tipo de archivo");   
                 }
             if(archivo_nuevo !=null){
-                FileWriter guardar = new FileWriter(archivo_nuevo);
-                guardar.write(txt_entrada.getText());
-                guardar.close();
+                try (FileWriter guardar = new FileWriter(archivo_nuevo)) {
+                    guardar.write(txt_entrada.getText());
+                }
                 JOptionPane.showMessageDialog(null,"El archivo se guardo con éxito", "Información",JOptionPane.INFORMATION_MESSAGE);
             }
             
@@ -630,10 +635,11 @@ public class Index extends javax.swing.JFrame {
         System.out.println("\nFinaliza el analisis...");        
     }
     
+    
     public void graficar(){
         String cod = "digraph G {\n" +
                         "\n" +
-                        "a->b\n" +
+                        "aaegg->bdsda\n" +
                         "}";
          
         Graficar g = new Graficar();
@@ -661,15 +667,21 @@ public class Index extends javax.swing.JFrame {
         model.reload(abuelo);
     }
 
+    // ----------------- sirve para colocar una imagen de fondo al panel
     public class Imagen extends javax.swing.JPanel {
         int ancho = 1500;
         int alto = 800;        
         public Imagen() {
             this.setSize(ancho,alto);
         }
+
+        /**
+         *
+         * @param g
+         */
         @Override
         public void paint(Graphics g) {
-            ImageIcon Img = new ImageIcon(getClass().getResource(rutaImagen));
+            ImageIcon Img = new ImageIcon(rutaImagen);
             g.drawImage(Img.getImage(), 0, 0, ancho, alto, null);
             setOpaque(false);
             super.paintComponent(g);
@@ -683,7 +695,7 @@ public class Index extends javax.swing.JFrame {
         }
         @Override
         public void paint(Graphics g) {
-            ImageIcon Img = new ImageIcon(getClass().getResource(rutaImagen));
+            ImageIcon Img = new ImageIcon(rutaImagen);
             g.drawImage(Img.getImage(), 0, 0, ancho, alto, null);
             setOpaque(false);
             super.paintComponent(g);
